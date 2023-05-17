@@ -109,8 +109,8 @@ class AboutWidget extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              onPressed: () => launchUrl(Uri.parse(
-                                  'assets/resume/Resume - YEAP LEE ZHI (2023).pdf')),
+                              onPressed: () => launchUrl(
+                                  Uri.parse('assets/resume/Resume.pdf')),
                               child: const Text("Download Resume")),
                         ],
                       ),
