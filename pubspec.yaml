@@ -1,0 +1,58 @@
+name: ecyzhi_flutter
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  carousel_slider: ^4.2.1
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.5
+  gauge_indicator: ^0.3.3
+  responsive_builder: ^0.6.4
+  url_launcher: ^6.1.11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/fonts/
+    - assets/resume/
+    - assets/images/blogs/
+    - assets/images/works/
+
+  fonts:
+    - family: Nunito-L
+      fonts:
+        - asset: assets/fonts/Nunito-Light.ttf
+          weight: 300
+    - family: Nunito-R
+      fonts:
+        - asset: assets/fonts/Nunito-Regular.ttf
+          weight: 400
+    - family: Nunito-M
+      fonts:
+        - asset: assets/fonts/Nunito-Medium.ttf
+          weight: 500
+    - family: Nunito-SB
+      fonts:
+        - asset: assets/fonts/Nunito-SemiBold.ttf
+          weight: 600
+    - family: Nunito-B
+      fonts:
+        - asset: assets/fonts/Nunito-Bold.ttf
+          weight: 700
+    - family: Nunito-XB
+      fonts:
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+          weight: 800
