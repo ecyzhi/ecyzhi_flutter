@@ -8,7 +8,7 @@ class CustomTheme {
     colorSchemeSeed: Colors.cyan,
     textTheme: textTheme,
     cardColor: Colors.grey[200]!,
-    scaffoldBackgroundColor: Color.fromARGB(255, 246, 252, 253),
+    scaffoldBackgroundColor: const Color.fromARGB(255, 246, 252, 253),
   );
 
   static final ThemeData darkThemeData = ThemeData(
