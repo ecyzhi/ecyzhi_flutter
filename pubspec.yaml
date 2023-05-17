@@ -15,6 +15,7 @@ dependencies:
   responsive_builder: ^0.6.4
   scrollable_positioned_list: ^0.3.8
   url_launcher: ^6.1.11
+  url_strategy: ^0.2.0
 
 dev_dependencies:
   flutter_test:

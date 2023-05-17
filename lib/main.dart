@@ -1,8 +1,10 @@
 import 'package:ecyzhi_flutter/config/theme_data.dart';
 import 'package:ecyzhi_flutter/home.dart';
 import 'package:flutter/material.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() {
+  setPathUrlStrategy();
   runApp(const MainApp());
 }
 
