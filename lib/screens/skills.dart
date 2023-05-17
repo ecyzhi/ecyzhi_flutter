@@ -99,6 +99,7 @@ class SkillsWidget extends StatelessWidget {
                 ],
               ),
               mobile: (context) => ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: skillCards.length,
                 separatorBuilder: (context, index) =>
@@ -143,6 +144,7 @@ class SkillCardWidget extends StatelessWidget {
             const SizedBox(height: 50),
             ListView.builder(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: skills.length,
               itemBuilder: (context, index) => Center(
                 child: Text(
@@ -168,6 +170,7 @@ class SkillCardWidget extends StatelessWidget {
               width: 100,
               child: ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: skills.length,
                 itemBuilder: (context, index) => Text(
                   skills[index],

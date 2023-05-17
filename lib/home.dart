@@ -2,6 +2,7 @@ import 'package:ecyzhi_flutter/body.dart';
 import 'package:ecyzhi_flutter/config/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,22 +12,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final ScrollController scrollController = ScrollController();
-  double scrollOffset = 150;
+  final ScrollOffsetListener scrollOffsetListener =
+      ScrollOffsetListener.create();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
+  final ItemScrollController itemScrollController = ItemScrollController();
+  int currentScrollIndex = 0;
+  int defScrollIndex = 0;
+  // double currentScrollOffset = 0;
+  // double scrollOffset = 150;
   bool isTop = true;
   bool showNav = true;
 
   bool mobileNavToggle = false;
   bool showMobileNav = false;
 
-  final List<GlobalKey> navKeys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-  ];
   final List<String> navTitle = [
     'About',
     'Skills',
@@ -40,11 +40,24 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    scrollController.addListener(() {
-      setState(() {
-        if (scrollController.position.pixels > scrollOffset) showNav = false;
-        isTop = scrollController.position.pixels < scrollOffset;
-      });
+    // scrollOffsetListener.changes.listen((event) {
+    //   setState(() {
+    //     currentScrollOffset += event;
+    //     if (event > scrollOffset) showNav = false;
+    //     isTop = event < scrollOffset;
+    //   });
+    // });
+
+    itemPositionsListener.itemPositions.addListener(() {
+      if (itemPositionsListener.itemPositions.value.first.index !=
+          currentScrollIndex) {
+        currentScrollIndex =
+            itemPositionsListener.itemPositions.value.first.index;
+        setState(() {
+          if (currentScrollIndex > defScrollIndex) showNav = false;
+          isTop = currentScrollIndex <= defScrollIndex;
+        });
+      }
     });
   }
 
@@ -55,17 +68,20 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              controller: scrollController,
-              child: BodyWidget(navKeys: navKeys),
+            BodyWidget(
+              itemScrollController: itemScrollController,
+              scrollOffsetListener: scrollOffsetListener,
+              itemPositionsListener: itemPositionsListener,
             ),
-            Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 1240),
-                alignment: Alignment.topLeft,
-                child: ScreenTypeLayout.builder(
-                  tablet: (context) => animatedMenu(context),
-                  mobile: (context) => animatedMenuMobile(context),
+            SafeArea(
+              child: Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 1240),
+                  alignment: Alignment.topLeft,
+                  child: ScreenTypeLayout.builder(
+                    tablet: (context) => animatedMenu(context),
+                    mobile: (context) => animatedMenuMobile(context),
+                  ),
                 ),
               ),
             ),
@@ -108,7 +124,7 @@ class _HomeState extends State<Home> {
             }
           },
           onExit: (event) {
-            if (!(scrollController.position.pixels < scrollOffset)) {
+            if (!(currentScrollIndex <= defScrollIndex)) {
               setState(() {
                 showNav = false;
                 isTop = false;
@@ -122,11 +138,7 @@ class _HomeState extends State<Home> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    scrollController.position.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
+                    itemScrollController.jumpTo(index: 0);
                   },
                   borderRadius: BorderRadius.circular(50),
                   child: const Padding(
@@ -142,13 +154,8 @@ class _HomeState extends State<Home> {
                       .map(
                         (e) => TextButton(
                           onPressed: () {
-                            if (navKeys[navTitle.indexOf(e)].currentContext !=
-                                null) {
-                              Scrollable.ensureVisible(
-                                navKeys[navTitle.indexOf(e)].currentContext!,
-                                duration: const Duration(milliseconds: 500),
-                              );
-                            }
+                            itemScrollController.jumpTo(
+                                index: navTitle.indexOf(e));
                           },
                           child: Text(
                             e,
@@ -168,12 +175,7 @@ class _HomeState extends State<Home> {
                   margin: const EdgeInsets.symmetric(horizontal: 8),
                   child: FilledButton(
                     onPressed: () {
-                      if (navKeys[0].currentContext != null) {
-                        Scrollable.ensureVisible(
-                          navKeys[0].currentContext!,
-                          duration: const Duration(milliseconds: 500),
-                        );
-                      }
+                      itemScrollController.jumpTo(index: 0);
                     },
                     child: Text(
                       navTitle[5],
@@ -236,17 +238,11 @@ class _HomeState extends State<Home> {
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: TextButton(
                       onPressed: () {
-                        if (navKeys[navTitle.indexOf(e)].currentContext !=
-                            null) {
-                          Scrollable.ensureVisible(
-                            navKeys[navTitle.indexOf(e)].currentContext!,
-                            duration: const Duration(milliseconds: 500),
-                          );
-                          setState(() {
-                            showMobileNav = false;
-                            mobileNavToggle = !mobileNavToggle;
-                          });
-                        }
+                        itemScrollController.jumpTo(index: navTitle.indexOf(e));
+                        setState(() {
+                          showMobileNav = false;
+                          mobileNavToggle = !mobileNavToggle;
+                        });
                       },
                       child: Text(
                         e,
@@ -266,16 +262,11 @@ class _HomeState extends State<Home> {
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: TextButton(
                 onPressed: () {
-                  if (navKeys[0].currentContext != null) {
-                    Scrollable.ensureVisible(
-                      navKeys[0].currentContext!,
-                      duration: const Duration(milliseconds: 500),
-                    );
-                    setState(() {
-                      showMobileNav = false;
-                      mobileNavToggle = !mobileNavToggle;
-                    });
-                  }
+                  itemScrollController.jumpTo(index: 0);
+                  setState(() {
+                    showMobileNav = false;
+                    mobileNavToggle = !mobileNavToggle;
+                  });
                 },
                 child: Text(
                   navTitle[5],
