@@ -25,13 +25,13 @@ class SkillsWidget extends StatelessWidget {
         const SkillCardWidget(
           title: "Frontend",
           value: 85,
-          colors: [Color(0xFFFF6F9F), Color(0xFF9C27B0)],
+          colors: [Color(0xFF5BCBFF), Color(0xFF4CAF50)],
           skills: ["Flutter", "HTML", "CSS", "Javascript", "Bootstrap"],
         ),
         const SkillCardWidget(
           title: "Backend",
           value: 70,
-          colors: [Color(0xFF5BCBFF), Color(0xFF4CAF50)],
+          colors: [Color(0xFFFF6F9F), Color(0xFF9C27B0)],
           skills: [".NET", "NodeJS"],
         ),
         const SkillCardWidget(
@@ -203,9 +203,6 @@ class SkillGaugeWidget extends StatelessWidget {
       duration: const Duration(seconds: 1),
       curve: Curves.easeOut,
       value: value,
-      progressBar: GaugeRoundedProgressBar(
-        gradient: GaugeAxisGradient(colors: colors),
-      ),
       axis: GaugeAxis(
         min: 0,
         max: 100,
@@ -214,13 +211,17 @@ class SkillGaugeWidget extends StatelessWidget {
           thickness: 20,
           background: Color(0xFFDFE2EC),
         ),
-        pointer: NeedlePointer(
-          position: const GaugePointerPosition.surface(
+        progressBar: GaugeRoundedProgressBar(
+          gradient: GaugeAxisGradient(colors: colors),
+        ),
+        pointer: const NeedlePointer(
+          width: 20,
+          height: 30,
+          color: Color(0xFF193663),
+          position: GaugePointerPosition.surface(
             offset: Offset(0, 20),
           ),
-          size: const Size(20, 30),
           borderRadius: 10,
-          backgroundColor: const Color(0xFF193663),
         ),
       ),
       builder: (context, child, value) {
