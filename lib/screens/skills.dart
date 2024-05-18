@@ -25,13 +25,13 @@ class SkillsWidget extends StatelessWidget {
         const SkillCardWidget(
           title: "Frontend",
           value: 85,
-          colors: [Color(0xFF5BCBFF), Color(0xFF4CAF50)],
+          colors: [Color(0xFFFF6F9F), Color(0xFF9C27B0)],
           skills: ["Flutter", "HTML", "CSS", "Javascript", "Bootstrap"],
         ),
         const SkillCardWidget(
           title: "Backend",
           value: 70,
-          colors: [Color(0xFFFF6F9F), Color(0xFF9C27B0)],
+          colors: [Color(0xFF5BCBFF), Color(0xFF4CAF50)],
           skills: [".NET", "NodeJS"],
         ),
         const SkillCardWidget(

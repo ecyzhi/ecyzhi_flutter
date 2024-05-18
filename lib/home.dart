@@ -256,7 +256,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 )
-                .toList(),
+                ,
             // Contact
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
